@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\admin;
 use App\Models\siswa;
 use Illuminate\Support\Facades\Hash;
+use Exception;
 
 class adminController extends Controller
 {
@@ -27,7 +28,7 @@ class adminController extends Controller
 
     if ($admin && Hash::check($request->password, $admin->password)) {
     // simpan ke session
-    session(['admin_id' => $admin->id, 'admin_username' => $admin->username]);
+    session(['admin_id' => $admin->id, 'admin_username' => $admin->username, 'admin_role'=> $admin->role]);
     return redirect()->route('home');
     }
     return back()->with('error', 'Username atau password salah.');
@@ -38,5 +39,29 @@ class adminController extends Controller
     //hapus session
     session()->forget(['admin_id', 'admin_username']);
     return redirect()->route('landing');
+    }
+
+    public function formRegister()
+    {
+    return view('register');
+    }
+
+    public function prosesRegister(Request $request)
+    {
+    try {
+    $request->validate([
+    'username' => 'required|string|max:50|unique:dataadmin,username',
+    'password' => 'required|string|min:8',
+    'role' => 'required|string|in:admin,guru,siswa',
+    ]);
+    admin::create([
+    'username' => $request->username,
+    'password' => Hash::make($request->password),
+    'role' => $request->role,
+    ]);
+    return redirect()->back()->with('error', 'Registrasi berhasil!');
+    } catch (Exception $e) {
+    return redirect()->back()->with('error', 'Registrasi gagal: ' . $e->getMessage());
+    }
     }
 }

@@ -22,7 +22,8 @@ class DatabaseSeeder extends Seeder
             'email' => 'test@example.com',
         ]);
 
-        admin::factory()->create();
+        admin::factory()->dataadmin1()->create();
+        admin::factory()->dataadmin2()->create();
         siswa::factory()->count(5)->create();
     }
 }

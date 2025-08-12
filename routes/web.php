@@ -17,3 +17,5 @@ Route::get('/siswa/{id}/edit', [siswaController::class, 'edit'])->name('siswa.ed
 Route::post('/siswa/{id}/update', [siswaController::class, 'update'])->name('siswa.update');
 Route::get('/siswa/{id}/delete', [siswaController::class, 'destroy'])->name('siswa.delete');
 Route::get('/logout', [adminController::class, 'logout'])->name('logout');
+Route::get('/register', [adminController::class, 'formregister'])->name('register');
+Route::post('/register', [adminController::class, 'prosesRegister'])->name('register.post');
