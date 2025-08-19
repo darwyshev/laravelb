@@ -3,11 +3,12 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\adminController;
 use App\Http\Controllers\siswaController;
+use App\Http\Controllers\kontenController;
 
 Route::get('/', function () {
     return view('welcome');
 });
-Route::get('/', [adminController::class, 'landing'])->name('landing');
+Route::get('/', [kontenController::class, 'landing'])->name('landing');
 Route::get('/login', [adminController::class, 'formLogin'])->name('login');
 Route::post('/login', [adminController::class, 'prosesLogin'])->name('login.post');
 Route::get('/home', [siswaController::class, 'home'])->name('home');
@@ -19,3 +20,4 @@ Route::get('/siswa/{id}/delete', [siswaController::class, 'destroy'])->name('sis
 Route::get('/logout', [adminController::class, 'logout'])->name('logout');
 Route::get('/register', [adminController::class, 'formregister'])->name('register');
 Route::post('/register', [adminController::class, 'prosesRegister'])->name('register.post');
+Route::get('/detil/{id}', [kontenController::class, 'detil'])->name('detil');
